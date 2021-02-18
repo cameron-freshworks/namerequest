@@ -3,8 +3,8 @@
     <v-row no-gutters>
 
       <!-- Help Info -->
-      <v-col cols="3" class="existing-request-info copy-small">
-        <div class="ma-8">
+      <v-col cols="12" md="3" lg="3" class="existing-request-info copy-small">
+        <div class="mx-8 my-2">
           <ul class="mt-3">
             <li>
               Check review time and approval status
@@ -26,11 +26,11 @@
       </v-col>
 
       <!-- Existing Request Search -->
-      <v-col cols="9">
+      <v-col cols="12" md="9" lg="9">
         <v-form v-model="isValid" lazy-validation @submit="handleSubmit()" class="pa-10" ref="existing-nr-form">
           <v-row no-gutters>
             <!-- FIRST LINE -->
-            <v-col cols="1" class="max-width"></v-col>
+            <v-col v-if="!isMobile" cols="1" class="max-width"></v-col>
             <v-col cols="11" class="h6">
              Enter your information to manage an existing Name Request:
             </v-col>
@@ -38,13 +38,13 @@
 
           <!-- SECOND LINE -->
           <v-row class="mt-4" no-gutters v-if="errorMessage">
-            <v-col cols="1" class="max-width"></v-col>
+            <v-col v-if="!isMobile" cols="1" class="max-width"></v-col>
             <v-col cols="11" class="error-message copy-small" v-html="errorMessage" />
           </v-row>
 
           <!-- THIRD LINE -->
           <v-row class="mt-4 mb-6" no-gutters align="center">
-            <v-col cols="1" class="max-width">
+            <v-col v-if="!isMobile" cols="1" class="max-width">
               <v-img src="../../assets/images/number1.svg" contain width="34" height="34" />
             </v-col>
             <v-col class="max-height">
@@ -63,7 +63,7 @@
 
           <!-- FOURTH LINE -->
           <v-row class="mt-5" no-gutters align="center">
-            <v-col cols="1" class="max-width">
+            <v-col v-if="!isMobile" cols="1" class="max-width">
               <v-img src="../../assets/images/number2.svg" contain width="34" height="34" />
             </v-col>
             <v-col class="max-height">
@@ -78,7 +78,7 @@
                             persistent-hint
                             validate-on-blur />
             </v-col>
-            <v-col class="copy-normal text-center shrink mx-4"> or </v-col>
+            <v-col cols="12" md="auto" lg="auto" class="copy-normal text-center shrink mx-4 mt-6 mb-4"> or </v-col>
             <v-col class="max-height">
               <v-text-field :rules="emailRules"
                             :value="search.emailAddress"
@@ -148,6 +148,10 @@ export default class ExistingRequestSearch extends Vue {
   private phoneRules = [
     v => (v.length <= 30) || 'Cannot exceed 30 characters'
   ]
+
+  get isMobile (): boolean {
+    return screen.width < this.$vuetify.breakpoint.thresholds.xs
+  }
 
   private get nr () {
     return newReqModule.nr
@@ -231,6 +235,5 @@ export default class ExistingRequestSearch extends Vue {
 
 #retrieve-name-btn {
   min-height: 45px !important;
-  padding: 0 50px !important;
 }
 </style>

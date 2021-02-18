@@ -1,26 +1,28 @@
 <template>
   <v-container id="landing-container" class="ma-0 pa-0" fluid>
-    <v-row id="upper-row" no-gutters align-content="start">
-      <v-container class="landing-content-container">
-        <v-col cols="12" class="mb-4">
-          <Stats class="pr-10"/>
-        </v-col>
-        <v-col cols="12" class="mb-n2">
+    <v-container>
+      <v-row id="upper-row">
+        <v-col cols="12" md="4" lg="4">
           <span class="h2 colour-white">Name Request
             <v-tooltip bottom nudge-right="10"
                        nudge-top="5"
                        content-class="bottom-tooltip tooltip-extra-wide"
                        transition="fade-transition"
                        class="test-class"
-                       :open-on-hover="false">
+                       :open-on-hover="false"
+                       :disabled="isMobile"
+            >
               <template v-slot:activator="{ on }">
-                <v-btn class="beta-wrapper-btn ml-n2 mb-n2 pa-0"
+                <v-btn v-if="!isMobile"
+                        class="beta-wrapper-btn ml-n2 mb-n2 pa-0"
                        @click="on.click"
                        @blur="on.blur"
                        :ripple="false"
-                       retain-focus-on-click>
+                       retain-focus-on-click
+                >
                   <sup class="beta-tag">Beta</sup>
                 </v-btn>
+                <sup v-else class="beta-tag">Beta</sup>
               </template>
               <p>The Name Request website is available as a Beta version. Name requests obtained through the Name
                 Request Beta website are official name requests and can be used in the province of British Columbia.</p>
@@ -45,18 +47,21 @@
             </v-tooltip>
           </span>
         </v-col>
-        <div class="main-container-style mt-3">
-          <transition name="fade" mode="out-in" :duration="{ enter: 100, leave: 100 }">
-            <keep-alive :include="['Tabs']">
-              <component :is="displayedComponent" :key="displayedComponent" transition="fade-transition" />
-            </keep-alive>
-          </transition>
-        </div>
-      </v-container>
+        <v-col cols="12" md="8" lg="8">
+          <Stats />
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-row>
+      <v-col cols="12">
+        <transition name="fade" mode="out-in" :duration="{ enter: 100, leave: 100 }">
+          <component :is="displayedComponent" :key="displayedComponent" transition="fade-transition" />
+        </transition>
+      </v-col>
     </v-row>
-    <v-row id="lower-row" no-gutters>
-      <LowerContainer />
-    </v-row>
+<!--    <v-row id="lower-row" no-gutters>-->
+<!--      <LowerContainer />-->
+<!--    </v-row>-->
  </v-container>
 </template>
 
@@ -110,6 +115,10 @@ export default class Landing extends Vue {
     }
   }
 
+  get isMobile (): boolean {
+    return screen.width < this.$vuetify.breakpoint.thresholds.xs
+  }
+
   async fetchNr (nrId: number): Promise<void> {
     const nrData = await newRequestModule.getNameRequest(nrId)
     await newRequestModule.loadExistingNameRequest(nrData)
@@ -124,16 +133,10 @@ export default class Landing extends Vue {
 <style lang="scss" scoped>
 @import '@/assets/scss/theme.scss';
 
-.landing-content-container {
-  min-width: 940px;
-  max-width: 1140px;
-}
 #upper-row {
-  background: url('../assets/images/analyze-name-bg.jpg') no-repeat bottom;
-  background-size: cover;
   color: white;
-  min-height: 700px;
 }
+
 .beta-tag {
   top: -1rem;
   color: $BCgovGold5;
@@ -157,6 +160,6 @@ export default class Landing extends Vue {
   pointer-events: auto !important;
 }
 .tooltip-extra-wide {
-  width: 410px !important;
+  max-width: 410px !important;
 }
 </style>

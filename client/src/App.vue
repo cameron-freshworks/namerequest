@@ -19,6 +19,7 @@
 
       <sbc-header
         class="sbc-header"
+        :class="{'mobile-header' : isMobile }"
         :in-auth="false"
         :redirectOnLoginSuccess="getNameRequestUrl"
         :redirect-on-login-fail="getNameRequestUrl"
@@ -32,7 +33,9 @@
         v-if="bannerText"
         v-html="bannerText"
       />
-      <router-view />
+      <div id="main-view">
+        <router-view />
+      </div>
       <sbc-footer :aboutText=aboutText />
     </div>
     <!--All v-dialogue (modal) components App-wide-->
@@ -149,6 +152,10 @@ export default class App extends Mixins(SessionTimerMixin) {
     return process.env.ABOUT_TEXT
   }
 
+  get isMobile (): boolean {
+    return screen.width < this.$vuetify.breakpoint.thresholds.xs
+  }
+
   get showAuthModal () {
     return newRequestModule.incorporateLoginModalVisible
   }
@@ -230,6 +237,11 @@ export default class App extends Mixins(SessionTimerMixin) {
   flex-flow: column nowrap
   min-height: 100vh
 
+  #main-view
+    padding: 2rem
+    background: url('assets/images/analyze-name-bg.jpg') no-repeat
+    background-size: cover
+
   .sbc-header
     .v-btn
       box-shadow: none !important
@@ -242,6 +254,9 @@ export default class App extends Mixins(SessionTimerMixin) {
 .app-header
   .v-btn
     box-shadow: unset !important
+
+.mobile-header
+  min-height: 8rem
 
 .app-footer
   .container

@@ -13,7 +13,7 @@
               :class="{ 'mt-1': tabNumber === 1 }"
               tabindex="0">
         <v-icon class="mr-2">mdi-magnify</v-icon>
-        <span :class="tabNumber === 0 ? 'h5' : 'h5-lt'">Request a Business Name</span>
+        <span v-if="!isMobile" :class="tabNumber === 0 ? 'h5' : 'h5-lt'">Request a Business Name</span>
       </v-tab>
       <v-tab :ripple="false"
               id="existing-tab"
@@ -21,7 +21,7 @@
              :class="{ 'mt-1': tabNumber === 0 }"
               tabindex="1">
         <v-icon class="mr-2">mdi-file-document-edit-outline</v-icon>
-        <span :class="tabNumber === 1 ? 'h5' : 'h5-lt'">Manage My Name Request</span>
+        <span v-if="!isMobile" :class="tabNumber === 1 ? 'h5' : 'h5-lt'">Manage My Name Request</span>
       </v-tab>
       <v-tabs-items class="rounded-b tab-items" v-model="tabNumber">
         <v-tab-item>
@@ -51,6 +51,10 @@ import LinkRow from '@/components/common/link-row.vue'
   }
 })
 export default class Tabs extends Vue {
+  get isMobile (): boolean {
+    return screen.width < this.$vuetify.breakpoint.thresholds.xs
+  }
+
   get tabNumber () {
     return newReqModule.tabNumber
   }
@@ -64,7 +68,6 @@ export default class Tabs extends Vue {
 <style lang="scss" scoped>
 @import '@/assets/scss/theme.scss';
 #tabs-landing-comp {
-  max-width: 1140px !important;
   padding: 0 !important;
 }
 
@@ -93,5 +96,10 @@ export default class Tabs extends Vue {
 ::v-deep .theme--light.v-tabs > .v-tabs-bar .v-tab:not(.v-tab--active) > .v-icon {
   color: white;
   transition: none !important;
+}
+
+::v-deep .v-tabs:not(.v-tabs--vertical):not(.v-tabs--right)
+> .v-slide-group--is-overflowing.v-tabs-bar--is-mobile:not(.v-slide-group--has-affixes) .v-slide-group__prev {
+  display: none
 }
 </style>

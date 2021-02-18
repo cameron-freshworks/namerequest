@@ -1,17 +1,17 @@
 <template>
   <v-container fluid id="new-request-container" class="copy-normal pa-10">
     <v-row no-gutters>
-      <v-col cols="6" class="pt-0 font-weight-bold h6"><span>I need a name to:</span></v-col>
+      <v-col cols="12" class="pt-0 font-weight-bold h6"><span>I need a name to:</span></v-col>
     </v-row>
 
     <v-row class="mt-4" no-gutters>
-      <v-col cols="4">
+      <v-col cols="12" md="4" lg="4">
         <!--request_action_cd-->
         <v-tooltip top
                    id="search-type-options-select"
                    content-class="top-tooltip"
                    transition="fade-transition"
-                   :disabled="request_action_cd !== 'CNV'">
+                   :disabled="request_action_cd !== 'CNV' || isMobile">
           <template v-slot:activator="scope">
             <div v-on="scope.on">
               <v-select :error-messages="errors.includes('request_action_cd') ? 'Please select an action' : ''"
@@ -21,7 +21,7 @@
                         filled
                         v-model="request_action_cd">
                 <template slot="item" slot-scope="data">
-                  <v-tooltip :disabled="!data.item.blurbs" right transition="fade-transition">
+                  <v-tooltip :disabled="!data.item.blurbs || isMobile" right transition="fade-transition">
                     <template v-slot:activator="scope">
                       <span v-on="scope.on" class="list-item">
                         {{ data.item.text }}
@@ -36,13 +36,13 @@
           <span>{{ requestText }}</span>
         </v-tooltip>
       </v-col>
-      <v-col cols="4" class="px-3">
+      <v-col cols="12" md="4" lg="4" :class="{'px-3': !isMobile }">
         <!--location-->
         <v-tooltip id="location-options-select"
                    top
                    content-class="top-tooltip"
                    transition="fade-transition"
-                   :disabled="!location || location === 'BC'">
+                   :disabled="!location || location === 'BC' || isMobile">
           <template v-slot:activator="scope">
             <div v-on="scope.on">
               <v-select :error-messages="errors.includes('location') ? 'Please select a jurisdiction' : ''"
@@ -55,7 +55,10 @@
                         label="Select a Jurisdiction"
                         v-model="location">
                 <template slot="item" slot-scope="data">
-                  <v-tooltip :disabled="!request_action_cd || !data.item.blurbs" right transition="fade-transition">
+                  <v-tooltip right
+                             transition="fade-transition"
+                             :disabled="!request_action_cd || !data.item.blurbs || isMobile"
+                  >
                     <template v-slot:activator="scope">
                       <span v-on="scope.on" class="list-item">{{ data.item.text }}</span>
                     </template>
@@ -73,12 +76,12 @@
           <span>{{ locationText }}</span>
         </v-tooltip>
       </v-col>
-      <v-col cols="4">
+      <v-col cols="12" md="4" lg="4">
         <!--entityConversionType-->
         <v-tooltip id="entity-type-options-select"
                    top
                    content-class="top-tooltip"
-                   :disabled="request_action_cd !== 'CNV' || !entityConversionText"
+                   :disabled="request_action_cd !== 'CNV' || !entityConversionText || isMobile"
                    transition="fade-transition">
           <template v-slot:activator="scope">
             <div v-on="scope.on">
@@ -94,7 +97,7 @@
                   <v-tooltip
                           :right="isScreenLg"
                           :left="!isScreenLg"
-                          :disabled="!data.item.blurbs"
+                          :disabled="!data.item.blurbs || isMobile"
                           :content-class="!isScreenLg ? 'left-tooltip' : ''"
                           transition="fade-transition">
                     <template v-slot:activator="scope">
@@ -149,49 +152,63 @@
 
     <!-- Person name and english checkboxes, render when location is NOT XPro Canada -->
     <v-row v-if="!isXproMras" no-gutters>
-      <v-tooltip top content-class="top-tooltip" transition="fade-transition" open-delay="200">
-        <template v-slot:activator="{ on }">
-          <v-checkbox
-                  v-model="isPersonsName"
-                  id="person-checkbox"
-                  class="copy-small mt-0 pt-0"
-                  hide-details
-                  v-slot:label v-on="on">
-            <template>
-              <span v-on="on" class="copy-small">Name is a person's name</span>
-            </template>
-          </v-checkbox>
-        </template>
-        <p>Check this box if you are...</p>
-        <ul>
-          <li>Incorporating under your own name (eg. DR. JOE SMITH INC.)</li>
-          <li>The name contains one or more names. (eg. BLAKE, CHAN &amp; DOUGLAS INC.)</li>
-        </ul>
-      </v-tooltip>
+      <v-col cols="12" md="2" lg="2">
+        <v-tooltip top
+                   content-class="top-tooltip"
+                   transition="fade-transition"
+                   open-delay="200"
+                   :disabled="isMobile"
+        >
+          <template v-slot:activator="{ on }">
+            <v-checkbox
+                    v-model="isPersonsName"
+                    id="person-checkbox"
+                    class="copy-small mt-0 pt-0"
+                    hide-details
+                    v-slot:label v-on="on">
+              <template>
+                <span v-on="on" class="copy-small">Name is a person's name</span>
+              </template>
+            </v-checkbox>
+          </template>
+          <p>Check this box if you are...</p>
+          <ul>
+            <li>Incorporating under your own name (eg. DR. JOE SMITH INC.)</li>
+            <li>The name contains one or more names. (eg. BLAKE, CHAN &amp; DOUGLAS INC.)</li>
+          </ul>
+        </v-tooltip>
+      </v-col>
 
-      <v-tooltip top content-class="top-tooltip" transition="fade-transition" open-delay="200">
-        <template v-slot:activator="{ on }">
-          <v-checkbox
-                  v-model="nameIsEnglish"
-                  id="name-checkbox"
-                  :false-value="true"
-                  :true-value="false"
-                  class="copy-small mt-0 pt-0 ml-4"
-                  hide-details
-                  v-slot:label v-on="on">
-            <template>
-              <span v-on="on" class="copy-small">Name contains no English words</span>
-            </template>
-          </v-checkbox>
-        </template>
-        <p>This refers to the language of the words in your name.</p>
-        <ul>
-          <li>Check this box if your name is written <b>entirely</b> in another language and does <b>not</b> contain
-            any English</li>
-          <li>Leave this box unchecked if your name contains <b>only</b> English or a mix of English and another
-            language.</li>
-        </ul>
-      </v-tooltip>
+      <v-col cols="12" md="2" lg="2">
+        <v-tooltip top
+                   content-class="top-tooltip"
+                   transition="fade-transition"
+                   open-delay="200"
+                   :disabled="isMobile"
+        >
+          <template v-slot:activator="{ on }">
+            <v-checkbox
+                    v-model="nameIsEnglish"
+                    id="name-checkbox"
+                    :false-value="true"
+                    :true-value="false"
+                    class="copy-small mt-0 pt-0"
+                    hide-details
+                    v-slot:label v-on="on">
+              <template>
+                <span v-on="on" class="copy-small">Name contains no English words</span>
+              </template>
+            </v-checkbox>
+          </template>
+          <p>This refers to the language of the words in your name.</p>
+          <ul>
+            <li>Check this box if your name is written <b>entirely</b> in another language and does <b>not</b> contain
+              any English</li>
+            <li>Leave this box unchecked if your name contains <b>only</b> English or a mix of English and another
+              language.</li>
+          </ul>
+        </v-tooltip>
+      </v-col>
     </v-row>
 
     <!-- Corporate number checkbox, only for XPro Canadian Locations -->
@@ -257,7 +274,6 @@
 <script lang="ts">
 import NameInput from './name-input.vue'
 import newReqModule from '../../store/new-request-module'
-import { bcMapping, xproMapping } from '@/store/list-data/request-action-mapping'
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { LocationT } from '@/models'
 
@@ -427,6 +443,9 @@ export default class NewSearch extends Vue {
   }
   get isXproMras () {
     return newReqModule.isXproMras
+  }
+  get isMobile (): boolean {
+    return screen.width < this.$vuetify.breakpoint.thresholds.xs
   }
   get jurisdictionOptions () {
     return this.location === 'CA'

@@ -1,6 +1,5 @@
 <template>
-  <v-container class="mt-1 mb-n3 py-0" fluid>
-    <v-row class="float-right stats-v-row">
+    <v-row class="stats-v-row" :class="{ 'stats-v-row-mobile' : isMobile }">
 <!--      COMMENTED OUT FOR FUTURE IMPLEMENTATION-->
 <!--        <div class="stats-content-outer py-0">-->
 <!--          <div class="stats-content-inner-1 text-center">-->
@@ -13,8 +12,9 @@
 <!--          </div>-->
 <!--        </div>-->
       <v-tooltip bottom nudge-left="50"
-        content-class="bottom-tooltip wait-time-tooltip"
-        transition="fade-transition"
+                 content-class="bottom-tooltip wait-time-tooltip"
+                 transition="fade-transition"
+                 :disabled="isMobile"
       >
         <template v-slot:activator="{ on }">
           <div class="stats-content-outer py-0" v-on="on">
@@ -31,8 +31,9 @@
         <span>During Business Hours</span>
       </v-tooltip>
       <v-tooltip bottom nudge-left="40"
-        content-class="bottom-tooltip new-submission-wait-time-tooltip"
-        transition="fade-transition"
+                 content-class="bottom-tooltip new-submission-wait-time-tooltip"
+                 transition="fade-transition"
+                 :disabled="isMobile"
       >
         <template v-slot:activator="{ on }">
           <div id="stats-content-outer-3" class="stats-content-outer py-0" v-on="on">
@@ -54,7 +55,6 @@
         </span>
       </v-tooltip>
     </v-row>
-  </v-container>
 </template>
 
 <script lang="ts">
@@ -70,6 +70,10 @@ export default class Stats extends Vue {
         featureFlags.getFlag('hardcoded_priority_wait_time') === 0) {
       newReqModule.getStats()
     }
+  }
+
+  get isMobile (): boolean {
+    return screen.width < this.$vuetify.breakpoint.thresholds.xs
   }
 
   get stats (): StatsI {
@@ -133,7 +137,11 @@ export default class Stats extends Vue {
   font-weight: bold
 
 .stats-v-row
-  height: 68px
+  min-height: 80px
+  justify-content: flex-end
+
+.stats-v-row-mobile
+  justify-content: flex-start
 
 .stats-value
   display: block

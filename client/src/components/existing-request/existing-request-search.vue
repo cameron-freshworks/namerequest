@@ -150,7 +150,7 @@ export default class ExistingRequestSearch extends Vue {
   ]
 
   get isMobile (): boolean {
-    return screen.width < this.$vuetify.breakpoint.thresholds.xs
+    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
   }
 
   private get nr () {

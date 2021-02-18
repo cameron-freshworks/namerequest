@@ -1,5 +1,5 @@
 <template>
-    <v-row class="stats-v-row" :class="{ 'stats-v-row-mobile' : isMobile }">
+    <v-row class="stats-v-row" :class="{ 'stats-v-row-mobile' : isTablet || isMobile }">
 <!--      COMMENTED OUT FOR FUTURE IMPLEMENTATION-->
 <!--        <div class="stats-content-outer py-0">-->
 <!--          <div class="stats-content-inner-1 text-center">-->
@@ -73,7 +73,12 @@ export default class Stats extends Vue {
   }
 
   get isMobile (): boolean {
-    return screen.width < this.$vuetify.breakpoint.thresholds.xs
+    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+  }
+
+  get isTablet (): boolean {
+    return (window.screen.width > this.$vuetify.breakpoint.thresholds.xs &&
+      window.screen.width < 1020)
   }
 
   get stats (): StatsI {

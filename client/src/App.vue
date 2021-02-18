@@ -153,7 +153,7 @@ export default class App extends Mixins(SessionTimerMixin) {
   }
 
   get isMobile (): boolean {
-    return screen.width < this.$vuetify.breakpoint.thresholds.xs
+    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
   }
 
   get showAuthModal () {
@@ -238,7 +238,7 @@ export default class App extends Mixins(SessionTimerMixin) {
   min-height: 100vh
 
   #main-view
-    padding: 2rem
+    padding: 0 2rem 2rem
     background: url('assets/images/analyze-name-bg.jpg') no-repeat
     background-size: cover
 

@@ -2,7 +2,7 @@
   <v-container id="landing-container" class="ma-0 pa-0" fluid>
     <v-container>
       <v-row id="upper-row">
-        <v-col cols="12" md="4" lg="4">
+        <v-col cols="12" md="4" lg="4" class="name-request-title">
           <span class="h2 colour-white">Name Request
             <v-tooltip bottom nudge-right="10"
                        nudge-top="5"
@@ -47,12 +47,12 @@
             </v-tooltip>
           </span>
         </v-col>
-        <v-col cols="12" md="8" lg="8">
+        <v-col v-if="!isMobile" cols="12" md="8" lg="8">
           <Stats />
         </v-col>
       </v-row>
     </v-container>
-    <v-row>
+    <v-row no-gutters>
       <v-col cols="12">
         <transition name="fade" mode="out-in" :duration="{ enter: 100, leave: 100 }">
           <component :is="displayedComponent" :key="displayedComponent" transition="fade-transition" />
@@ -116,7 +116,7 @@ export default class Landing extends Vue {
   }
 
   get isMobile (): boolean {
-    return screen.width < this.$vuetify.breakpoint.thresholds.xs
+    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
   }
 
   async fetchNr (nrId: number): Promise<void> {
@@ -132,6 +132,10 @@ export default class Landing extends Vue {
 
 <style lang="scss" scoped>
 @import '@/assets/scss/theme.scss';
+
+.name-request-title {
+  padding-top: 4rem;
+}
 
 #upper-row {
   color: white;

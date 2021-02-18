@@ -259,7 +259,11 @@
     </v-expand-transition>
 
     <div v-if="!isFederal" class="mt-6 text-center">
-      <v-btn id="search-name-btn" :disabled="!corpNumValid" @click="handleSubmit()">
+      <v-btn id="search-name-btn"
+             :class="{'search-name-btn-mobile' : isMobile}"
+             :disabled="!corpNumValid"
+             @click="handleSubmit()"
+      >
         {{ isXproMras ? 'Search' : 'Search Name'}}
       </v-btn>
     </div>
@@ -445,7 +449,7 @@ export default class NewSearch extends Vue {
     return newReqModule.isXproMras
   }
   get isMobile (): boolean {
-    return screen.width < this.$vuetify.breakpoint.thresholds.xs
+    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
   }
   get jurisdictionOptions () {
     return this.location === 'CA'
@@ -492,6 +496,9 @@ export default class NewSearch extends Vue {
 #search-name-btn {
   min-height: 45px !important;
   padding: 0 50px !important;
+}
+#search-name-btn-mobile {
+  padding: 0 !important;
 }
 #goto-corporate-btn {
   min-height: 45px !important;

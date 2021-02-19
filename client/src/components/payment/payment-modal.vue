@@ -3,41 +3,58 @@
     <v-card>
 
       <v-card-title class="d-flex justify-space-between">
-        <div>Confirm Name Request</div>
-        <v-btn icon large class="dialog-close float-right" @click="hideModal()">
+        <span :class="{ 'h4' : isMobile }">Confirm Name Request</span>
+        <v-btn v-if="!isMobile" icon large class="dialog-close float-right" @click="hideModal()">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
 
       <v-card-text class="copy-normal pt-0">
-        <request-details
-          :applicant="applicant"
-          :name="name"
-          :nameChoices="nameChoices"
-        />
-        <fee-summary
-          :filingData="[...paymentDetails]"
-          :fees="[...paymentFees]"
-        />
+        <v-row>
+          <v-col cols="12" md="12" lg="12">
+            <request-details
+                    :applicant="applicant"
+                    :name="name"
+                    :nameChoices="nameChoices"
+            />
+          </v-col>
+          <v-col cols="12" md="12" lg="12">
+            <fee-summary
+                    :filingData="[...paymentDetails]"
+                    :fees="[...paymentFees]"
+            />
+          </v-col>
+        </v-row>
       </v-card-text>
 
       <v-card-actions class="pt-4">
-        <v-btn v-if="allowCancel"
-               @click="cancelPayment()"
-               id="payment-cancel-btn"
-               class="button-red px-4"
-               text
-               :disabled="isLoadingPayment">Cancel Name Request</v-btn>
-        <v-spacer></v-spacer>
-        <v-btn @click="confirmPayment()"
-               id="payment-pay-btn"
-               class="primary px-4"
-               text
-               :loading="isLoadingPayment">Continue to Payment</v-btn>
-        <v-btn @click="hideModal()"
-               id="payment-close-btn"
-               class="button-blue"
-               :disabled="isLoadingPayment">Close</v-btn>
+        <v-row :class="{ 'text-center' : isMobile }">
+          <v-col cols="12" md="7" lg="7" class="py-0">
+            <v-btn v-if="allowCancel"
+                   @click="cancelPayment()"
+                   id="payment-cancel-btn"
+                   class="button-red px-4"
+                   :class="{ 'mobile-btn' : isMobile }"
+                   text
+                   :disabled="isLoadingPayment">Cancel Name Request</v-btn>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="12" md="3" lg="3" class="py-0">
+            <v-btn @click="confirmPayment()"
+                   id="payment-pay-btn"
+                   class="primary"
+                   :class="{ 'mobile-btn' : isMobile }"
+                   text
+                   :loading="isLoadingPayment">Continue to Payment</v-btn>
+          </v-col>
+          <v-col cols="12" md="2" lg="2" class="py-0" :class="{ 'text-right' : !isMobile }">
+            <v-btn @click="hideModal()"
+                   id="payment-close-btn"
+                   class="button-blue"
+                   :class="{ 'mobile-btn' : isMobile }"
+                   :disabled="isLoadingPayment">Close</v-btn>
+          </v-col>
+        </v-row>
       </v-card-actions>
 
     </v-card>
@@ -90,6 +107,14 @@ export default class PaymentModal extends Mixins(
 
   private get allowCancel (): boolean {
     return (typeof this.$props.onCancel === 'function')
+  }
+
+  get isMobile (): boolean {
+    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+  }
+
+  get viewWidth (): string {
+    return this.isMobile ? '90vw' : '45rem'
   }
 
   /** Whether this modal should be shown (per store property). */
@@ -185,3 +210,12 @@ export default class PaymentModal extends Mixins(
   }
 }
 </script>
+<style scoped lang="scss">
+@import "@/assets/scss/theme.scss";
+
+.mobile-btn {
+  width: 60vw !important;
+  margin: .5rem 0;
+  padding: 0 !important;
+}
+</style>

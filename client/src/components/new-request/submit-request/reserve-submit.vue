@@ -5,7 +5,7 @@
              :disabled="isContinue">
     <template v-slot:activator="scope">
       <v-btn @click="handleSubmit()"
-             :class="isContinue ? 'button-normal' : 'button-blue'"
+             :class="[isContinue ? 'button-normal' : 'button-blue', { 'mobile-btn' : isMobile }]"
              class="mt-auto"
              v-on="scope.on"
              id="reserve-submit-btn">{{ text }}</v-btn>
@@ -30,7 +30,9 @@ export default class ReserveSubmitButton extends Vue {
       if (reserveSubmitBtn) reserveSubmitBtn.classList.add("reserve-submit-btn")
     })
   }
-
+  get isMobile (): boolean {
+    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+  }
   get entity_type_cd () {
     return newReqModule.entity_type_cd
   }
@@ -124,5 +126,10 @@ export default class ReserveSubmitButton extends Vue {
 <style lang="scss" scoped>
 #reserve-submit-btn {
   min-width: 140px !important;
+}
+
+.mobile-btn {
+  width: 60vw !important;
+  margin: .5rem 0;
 }
 </style>

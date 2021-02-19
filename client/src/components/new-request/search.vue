@@ -1,6 +1,11 @@
 <template>
   <v-container fluid id="new-request-container" class="copy-normal pa-10">
     <v-row no-gutters>
+      <v-col cols="12" class="mb-6">
+        <span v-if="isMobile" class="h5">Request a Business Name</span>
+      </v-col>
+    </v-row>
+    <v-row no-gutters>
       <v-col cols="12" class="pt-0 font-weight-bold h6"><span>I need a name to:</span></v-col>
     </v-row>
 
@@ -124,7 +129,7 @@
     </v-row>
 
     <v-row no-gutters>
-      <v-col cols="4" v-if="isXproMras">
+      <v-col cols="12" md="4" lg="4" v-if="isXproMras">
         <v-select :error-messages="errors.includes('jurisdiction') ? 'Please select a jurisdiction' : ''"
                   :items="jurisdictionOptions"
                   label="Select business's home jurisdiction"
@@ -138,7 +143,7 @@
           </template>
         </v-select>
       </v-col>
-      <v-col :cols="isXproMras ? 8 : 12" :class="{ 'pl-3': (isXproMras && !isFederal) }">
+      <v-col :class="{ 'pl-3': (isXproMras && !isFederal) && !isMobile }">
         <NameInput v-if="!isFederal"
                    :class="inputCompClass"
                    :is-mras-search="(isXproMras && !noCorpNum)"
@@ -213,8 +218,8 @@
 
     <!-- Corporate number checkbox, only for XPro Canadian Locations -->
     <v-row v-else-if="!isFederal" no-gutters>
-      <v-col class="d-flex justify-end">
-        <v-tooltip top min-width="390" content-class="top-tooltip" transition="fade-transition">
+      <v-col class="d-flex" :class="{ 'justify-end': !isMobile }">
+        <v-tooltip top min-width="390" content-class="top-tooltip" transition="fade-transition" :disabled="isMobile">
           <template v-slot:activator="{ on }">
             <v-checkbox
                     v-model="noCorpNum"

@@ -324,7 +324,7 @@ export default class GreyBox extends Vue {
           return 'square-card-x1'
         case 2:
           if (i === 1) {
-            return 'square-card-x2 ml-3'
+            return 'square-card-x2'
           }
           return 'square-card-x2'
         case 3:

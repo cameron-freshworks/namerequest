@@ -33,7 +33,7 @@
         v-if="bannerText"
         v-html="bannerText"
       />
-      <div id="main-view">
+      <div id="main-view" :class="{ 'main-view-mobile' : isMobile }">
         <router-view />
       </div>
       <sbc-footer :aboutText=aboutText />
@@ -238,9 +238,11 @@ export default class App extends Mixins(SessionTimerMixin) {
   min-height: 100vh
 
   #main-view
-    padding: 0 2rem 2rem
     background: url('assets/images/analyze-name-bg.jpg') no-repeat
     background-size: cover
+
+  .main-view-mobile
+    padding: 0 !important
 
   .sbc-header
     .v-btn

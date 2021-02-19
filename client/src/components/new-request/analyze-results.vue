@@ -17,7 +17,7 @@
                         @keydown.native.capture="handleEnterKey"
                         id="name-search-bar"
                         ref="quill" />
-          <div class="search-icon">
+          <div :class="isMobile ? 'search-icon-mobile' : 'search-icon'">
             <v-tooltip bottom
                        content-class="bottom-tooltip search-tooltip"
                        transition="fade-transition">
@@ -37,7 +37,7 @@
 
       <transition name="fade" mode="out-in" :duration="{ enter: 200, leave: 200 }">
         <v-row no-gutters :key="issueIndex+'vcol'">
-          <v-col>
+          <v-col cols="auto">
 
             <!--"FURTHER ACTION REQUIRED" OR "APPROVABLE" TEXT + ICON-->
             <transition name="fade" mode="out-in" >
@@ -98,7 +98,7 @@
                        class="colour-p-blue-text justify-center"
                        dense
                        v-if="showGreyBoxes">
-                  <v-col :key="issue.issue_type + '-' + option.header + '-' + optionIndex"
+                  <v-col :cols="isMobile ? 12 : ''" :key="issue.issue_type + '-' + option.header + '-' + optionIndex"
                          v-for="(option, optionIndex) of issue.setup">
                     <GreyBox :changesInBaseName="changesInBaseName"
                              :designationIsFixed="designationIsFixed"
@@ -294,6 +294,10 @@ export default class AnalyzeResults extends Vue {
       this.json.status = 'Available'
       this.json.issues = []
     }
+  }
+
+  get isMobile (): boolean {
+    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
   }
 
   get allDesignationsStripped () {
@@ -808,6 +812,12 @@ export default class AnalyzeResults extends Vue {
 .search-icon {
   position: relative;
   left: 96.5%;
+  top: -45px;
+  z-index: 1000;
+}
+.search-icon-mobile {
+  position: relative;
+  left: 90.5%;
   top: -45px;
   z-index: 1000;
 }

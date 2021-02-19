@@ -29,7 +29,7 @@
         <div class="nr-data">
           <v-row class="mt-5" :key="refreshCount">
             <!-- labels and values -->
-            <v-col cols="9" class="py-0">
+            <v-col cols="12" md="9" lg="9" class="py-0">
               <v-row dense>
                 <v-col cols="12">
                   <span>Last Update:</span>
@@ -93,7 +93,7 @@
             </v-col>
 
             <!-- action buttons -->
-            <v-col cols="3" class="py-0">
+            <v-col cols="12" md="3" lg="3" class="py-0">
               <v-row dense>
                 <template v-if="pendingPayment">
                   <v-col cols="12" v-if="isNotPaid">

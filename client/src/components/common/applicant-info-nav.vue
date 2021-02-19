@@ -1,15 +1,16 @@
 <template>
-  <v-col cols="5" class="text-right py-0">
+  <v-col cols="12" md="5" lg="5" class="py-0" :class="isMobile ? 'text-center' : 'text-right'">
     <v-btn x-large
            id="submit-back-btn"
-           class="mr-3"
+           :class="isMobile ? 'mobile-btn' : 'mr-3'"
            v-if="showBack"
            @click="back()">
       {{ backText }}
     </v-btn>
     <v-btn x-large
+           :class="{ 'mobile-btn' : isMobile }"
            @click="nextAction()"
-           :loading="isloadingSubmission"
+           :loading="isLoadingSubmission"
            id="submit-continue-btn">
       {{ nextText }}
     </v-btn>
@@ -19,11 +20,20 @@
 <script lang="ts">
 import { Component, Emit, Vue } from 'vue-property-decorator'
 import NameRequestMixin from '@/components/mixins/name-request-mixin'
+import newReqModule from '@/store/new-request-module'
 
 @Component({})
 export default class ApplicantInfoNav extends NameRequestMixin {
   @Emit('nextAction')
   private nextAction () : void {}
+
+  get isMobile (): boolean {
+    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+  }
+
+  get isLoadingSubmission () : boolean {
+    return newReqModule.isloadingSubmission
+  }
 
   get backText () {
     if (this.editMode) {
@@ -59,3 +69,11 @@ export default class ApplicantInfoNav extends NameRequestMixin {
   }
 }
 </script>
+<style scoped lang="scss">
+@import "@/assets/scss/theme.scss";
+
+.mobile-btn {
+  width: 60vw !important;
+  margin: .5rem 0;
+}
+</style>

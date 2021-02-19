@@ -1,8 +1,8 @@
 <template>
   <v-container id="landing-container" class="ma-0 pa-0" fluid>
-    <v-container>
+    <v-container class="header-container">
       <v-row id="upper-row">
-        <v-col cols="12" md="4" lg="4" class="name-request-title">
+        <v-col cols="12" md="4" lg="4" :class="{ 'name-request-title' : !isMobile }">
           <span class="h2 colour-white">Name Request
             <v-tooltip bottom nudge-right="10"
                        nudge-top="5"
@@ -47,7 +47,7 @@
             </v-tooltip>
           </span>
         </v-col>
-        <v-col v-if="!isMobile" cols="12" md="8" lg="8">
+        <v-col v-if="!isMobile" cols="12" md="8" lg="8" :class="isMobile ? 'mt-n2' : 'mt-4'">
           <Stats />
         </v-col>
       </v-row>
@@ -59,9 +59,9 @@
         </transition>
       </v-col>
     </v-row>
-<!--    <v-row id="lower-row" no-gutters>-->
-<!--      <LowerContainer />-->
-<!--    </v-row>-->
+    <v-row id="lower-row" no-gutters>
+      <LowerContainer :class="{ 'mt-10' : !isMobile }"/>
+    </v-row>
  </v-container>
 </template>
 
@@ -132,6 +132,10 @@ export default class Landing extends Vue {
 
 <style lang="scss" scoped>
 @import '@/assets/scss/theme.scss';
+
+.header-container {
+  max-width: 1180px;
+}
 
 .name-request-title {
   padding-top: 4rem;

@@ -1,11 +1,13 @@
 <template>
   <div>
     <v-row no-gutters>
-
       <!-- Help Info -->
       <v-col cols="12" md="3" lg="3" class="existing-request-info copy-small">
         <div class="mx-8 my-2">
           <ul class="mt-3">
+            <div class="py-4">
+              <span v-if="isMobile" class="h5">Manage My Name Request</span>
+            </div>
             <li>
               Check review time and approval status
             </li>

@@ -1,8 +1,8 @@
 <template>
-  <v-container fluid class="white rounded copy-normal pa-10">
+  <v-container fluid class="main-container white rounded copy-normal pa-10">
     <v-row justify="space-between" class="submission-tabs-top">
       <slot name="container-header" />
-      <v-col cols="auto" class="py-0" v-if="displayedComponent !== 'Success'">
+      <v-col cols="auto" class="pb-0" v-if="displayedComponent !== 'Success'">
         <button id="back-to-search-btn"
                 class="modal-activator link-std-sans-ul"
                 @click="backToSearch()">
@@ -58,6 +58,10 @@ export default class MainContainer extends Mixins(SessionTimerMixin, DisplayedCo
     })
   }
 
+  get isMobile (): boolean {
+    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+  }
+
   get editMode () {
     return newReqModule.editMode
   }
@@ -95,6 +99,9 @@ export default class MainContainer extends Mixins(SessionTimerMixin, DisplayedCo
 </script>
 
 <style lang="scss" scoped>
+.main-container {
+  max-width: 1180px;
+}
 #back-to-search-btn:focus {
   outline:0;
 }

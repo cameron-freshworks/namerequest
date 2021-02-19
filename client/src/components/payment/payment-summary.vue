@@ -3,14 +3,22 @@
     <!-- do not display until payments are fetched -->
     <section class="payment-summary" v-if="summary">
       <v-row class="py-5" no-gutters>
-        <div class="col1 align-self-center">{{receiptNumber}}</div>
-        <div class="col2 align-self-center">{{receiptDate}}</div>
-        <div class="col3 align-self-center">{{receiptDescription}}</div>
-        <div class="col4 align-self-center">${{receiptAmount}}</div>
-        <div class="col5 align-self-center">
-          <v-btn class="download-receipt-btn float-right" :loading="loading"
-            @click="downloadReceipt()">Download PDF</v-btn>
-        </div>
+        <v-col cols="12" md="auto" lg="auto">
+          <div class="align-self-center">{{receiptNumber}}</div>
+        </v-col>
+        <v-col cols="12" md="auto" lg="auto">
+          <div class="align-self-center">{{receiptDate}}</div>
+        </v-col>
+        <v-col cols="12" md="auto" lg="auto">
+          <div class="align-self-center">{{receiptDescription}}</div>
+        </v-col>
+        <v-col cols="12" md="2" lg="2">
+          <div class="align-self-center">${{receiptAmount}}</div>
+        </v-col>
+        <v-col cols="12" md="auto" lg="auto">
+          <v-btn class="download-receipt-btn" :class="{ 'float-right' : !isMobile }" :loading="loading"
+                 @click="downloadReceipt()">Download PDF</v-btn>
+        </v-col>
       </v-row>
     </section>
   </v-expand-transition>
@@ -27,6 +35,10 @@ export default class PaymentSummary extends Mixins(PaymentMixin) {
 
   /** Used to show loading state on button. */
   private loading = false
+
+  get isMobile (): boolean {
+    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+  }
 
   private get receiptNumber (): string {
     const receiptNumber = this.summary?.receipt.receiptNumber || 'UNK'
@@ -67,30 +79,4 @@ export default class PaymentSummary extends Mixins(PaymentMixin) {
 <style lang="scss" scoped>
 @import "@/assets/scss/theme";
 
-.col1 {
-  flex: 0 0 23.75%;
-  max-width: 23.75%;
-  font-weight: bold;
-}
-
-.col2 {
-  flex: 0 0 20%;
-  max-width: 20%;
-}
-
-.col3 {
-  flex: 0 0 18.75%;
-  max-width: 18.75%;
-}
-
-.col4 {
-  flex: 0 0 16.25%;
-  max-width: 16.25%;
-  text-align: right;
-}
-
-.col5 {
-  flex: 0 0 21.25%;
-  max-width: 21.25%;
-}
 </style>

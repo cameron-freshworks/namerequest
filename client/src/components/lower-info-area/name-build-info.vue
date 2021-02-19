@@ -1,9 +1,9 @@
 <template>
   <v-container id="name-build-info" class="content-container">
     <v-row no-gutters>
-      <v-col cols="auto" sm="12" class="h3" align="center">How to Build Your Name</v-col>
-      <v-col cols="12" sm="6" class="my-9">
-        <v-card class="my-9 ml-6 mr-0" flat>
+      <v-col cols="12" class="h3" align="center">How to Build Your Name</v-col>
+      <v-col cols="12" md="6" lg="6" class="my-9">
+        <v-card class="my-9 ml-3 mr-0" flat>
           <v-list class="name-build-list">
             <v-list-item-group color="primary">
               <v-list-item
@@ -30,7 +30,7 @@
         </v-card>
       </v-col>
       <v-divider class="mt-9 divider" vertical></v-divider>
-      <v-col cols="12" sm="6" class="my-9 pl-75">
+      <v-col cols="12" md="6" lg="6" class="my-9 px-6">
         <component :is="getDisplayedComponent(itemIndex)" :key="itemIndex" />
       </v-col>
     </v-row>

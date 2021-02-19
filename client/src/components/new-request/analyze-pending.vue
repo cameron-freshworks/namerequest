@@ -27,11 +27,13 @@
                                indeterminate />
         </v-col>
       </v-row>
-      <v-row justify="center">
-        <v-col cols="auto" class="pb-0 pr-1">
-          <v-btn id="analyze-pending-stop-button" @click="startOver">Stop Search</v-btn>
+      <v-row justify="center" :class="isMobile ? 'text-center' : 'text-right'">
+        <v-col cols="12" md="auto" lg="auto" class="pb-0" :class="{ 'pr-1' :!isMobile }">
+          <v-btn id="analyze-pending-stop-button"
+                 :class="{ 'mobile-btn' : isMobile }"
+                 @click="startOver">Stop Search</v-btn>
         </v-col>
-        <v-col cols="auto" class="pb-0">
+        <v-col cols="12" md="auto" lg="auto" class="pb-0">
           <ReserveSubmit setup="cancel" />
         </v-col>
       </v-row>
@@ -50,6 +52,9 @@ import { Component, Vue } from 'vue-property-decorator'
   components: { ReserveSubmit, MainContainer, NameInput }
 })
 export default class AnalyzePending extends Vue {
+  get isMobile (): boolean {
+    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+  }
   get entityObject () {
     return newReqModule.entityTypeOptions.find((ent: any) => ent.value === this.entity_type_cd)
   }
@@ -89,5 +94,10 @@ export default class AnalyzePending extends Vue {
   padding: 0;
   margin: 0;
   padding-top: 1.5625rem;
+}
+
+.mobile-btn {
+  width: 60vw !important;
+  margin: .5rem 0;
 }
 </style>

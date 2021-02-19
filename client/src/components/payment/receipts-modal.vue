@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="isVisible" persistent>
+  <v-dialog max-width="45rem" :value="isVisible" persistent>
     <v-card>
 
       <v-card-title class="d-flex justify-space-between">
@@ -82,11 +82,6 @@ export default class ReceiptsModal extends Mixins(NameRequestMixin, PaymentMixin
 
 <style lang="scss" scoped>
 @import "@/assets/scss/theme";
-
-::v-deep .v-dialog {
-  width: 50rem;
-  min-width: 45rem;
-}
 
 .payment-summary {
   border-top: solid 1px $gray3;

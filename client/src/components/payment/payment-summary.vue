@@ -37,7 +37,7 @@ export default class PaymentSummary extends Mixins(PaymentMixin) {
   private loading = false
 
   get isMobile (): boolean {
-    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+    return window.innerWidth < this.$vuetify.breakpoint.thresholds.xs
   }
 
   private get receiptNumber (): string {

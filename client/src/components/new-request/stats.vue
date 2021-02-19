@@ -73,12 +73,12 @@ export default class Stats extends Vue {
   }
 
   get isMobile (): boolean {
-    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+    return window.innerWidth < this.$vuetify.breakpoint.thresholds.xs
   }
 
   get isTablet (): boolean {
-    return (window.screen.width > this.$vuetify.breakpoint.thresholds.xs &&
-      window.screen.width < 1020)
+    return (window.innerWidth > this.$vuetify.breakpoint.thresholds.xs &&
+      window.innerWidth < 1020)
   }
 
   get stats (): StatsI {

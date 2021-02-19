@@ -454,7 +454,7 @@ export default class NewSearch extends Vue {
     return newReqModule.isXproMras
   }
   get isMobile (): boolean {
-    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+    return window.innerWidth < this.$vuetify.breakpoint.thresholds.xs
   }
   get jurisdictionOptions () {
     return this.location === 'CA'

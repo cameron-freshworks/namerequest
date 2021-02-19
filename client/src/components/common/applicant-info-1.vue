@@ -363,7 +363,7 @@ export default class ApplicantInfo1 extends NameRequestMixin {
   showAddressMenu: boolean = false
 
   get isMobile (): boolean {
-    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+    return window.innerWidth < this.$vuetify.breakpoint.thresholds.xs
   }
 
   @Watch('countryTypeCd')

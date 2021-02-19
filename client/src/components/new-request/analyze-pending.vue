@@ -53,7 +53,7 @@ import { Component, Vue } from 'vue-property-decorator'
 })
 export default class AnalyzePending extends Vue {
   get isMobile (): boolean {
-    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+    return window.innerWidth < this.$vuetify.breakpoint.thresholds.xs
   }
   get entityObject () {
     return newReqModule.entityTypeOptions.find((ent: any) => ent.value === this.entity_type_cd)

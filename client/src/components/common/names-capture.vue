@@ -358,7 +358,7 @@ export default class NamesCapture extends NameRequestMixin {
   }
 
   get isMobile (): boolean {
-    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+    return window.innerWidth < this.$vuetify.breakpoint.thresholds.xs
   }
 
   get isVisible (): boolean {

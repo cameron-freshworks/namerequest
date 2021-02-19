@@ -84,7 +84,7 @@ export default class LinkRow extends Mixins(CommonMixin) {
   }
 
   get isMobile (): boolean {
-    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+    return window.innerWidth < this.$vuetify.breakpoint.thresholds.xs
   }
 
   activateNRRModal () {

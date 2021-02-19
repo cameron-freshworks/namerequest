@@ -273,7 +273,7 @@ export default class ApplicantInfo3 extends NameRequestMixin {
     }
   }
   get isMobile (): boolean {
-    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+    return window.innerWidth < this.$vuetify.breakpoint.thresholds.xs
   }
   get applicant () {
     return newReqModule.applicant

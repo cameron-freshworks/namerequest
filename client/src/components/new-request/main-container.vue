@@ -59,7 +59,7 @@ export default class MainContainer extends Mixins(SessionTimerMixin, DisplayedCo
   }
 
   get isMobile (): boolean {
-    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+    return window.innerWidth < this.$vuetify.breakpoint.thresholds.xs
   }
 
   get editMode () {

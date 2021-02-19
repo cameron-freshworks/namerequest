@@ -297,7 +297,7 @@ export default class AnalyzeResults extends Vue {
   }
 
   get isMobile (): boolean {
-    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+    return window.innerWidth < this.$vuetify.breakpoint.thresholds.xs
   }
 
   get allDesignationsStripped () {

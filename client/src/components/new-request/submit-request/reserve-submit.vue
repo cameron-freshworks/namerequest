@@ -31,7 +31,7 @@ export default class ReserveSubmitButton extends Vue {
     })
   }
   get isMobile (): boolean {
-    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+    return window.innerWidth < this.$vuetify.breakpoint.thresholds.xs
   }
   get entity_type_cd () {
     return newReqModule.entity_type_cd

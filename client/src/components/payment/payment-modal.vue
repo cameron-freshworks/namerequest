@@ -110,7 +110,7 @@ export default class PaymentModal extends Mixins(
   }
 
   get isMobile (): boolean {
-    return window.screen.width < this.$vuetify.breakpoint.thresholds.xs
+    return window.innerWidth < this.$vuetify.breakpoint.thresholds.xs
   }
 
   get viewWidth (): string {
